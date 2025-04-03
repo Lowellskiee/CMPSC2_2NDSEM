@@ -1,0 +1,65 @@
+.data
+prompt_n1:  .asciiz "Enter the first integer (n1): "
+prompt_n2:  .asciiz "Enter the second integer (n2): "
+result_msg: .asciiz "The sum from n1 to n2 is: "
+newline:     .asciiz "\n"
+
+.text
+.globl main
+
+main:
+    # Prompt for the first integer (n1)
+    li      $v0, 4              # syscall for print string
+    la      $a0, prompt_n1      # load address of prompt_n1
+    syscall
+
+    # Read the first integer (n1)
+    li      $v0, 5              # syscall for read integer
+    syscall
+    move    $t0, $v0            # move n1 to $t0
+
+    # Prompt for the second integer (n2)
+    li      $v0, 4              # syscall for print string
+    la      $a0, prompt_n2      # load address of prompt_n2
+    syscall
+
+    # Read the second integer (n2)
+    li      $v0, 5              # syscall for read integer
+    syscall
+    move    $t1, $v0            # move n2 to $t1
+
+    # Initialize sum to 0
+    li      $t2, 0               # $t2 will hold the sum
+
+    # Loop from n1 to n2
+sum_loop:
+    bgt     $t0, $t1, print_result # if n1 > n2, go to print result
+
+    # Add n1 to sum
+    add     $t2, $t2, $t0        # sum += n1
+
+    # Increment n1
+    addi    $t0, $t0, 1          # n1++
+
+    # Repeat the loop
+    j       sum_loop
+
+print_result:
+    # Print the result message
+    li      $v0, 4               # syscall for print string
+    la      $a0, result_msg      # load address of result message
+    syscall
+
+    # Print the sum
+    move    $a0, $t2             # move sum to $a0 for printing
+    li      $v0, 1               # syscall for print integer
+    syscall
+
+    # Print a newline
+    li      $v0, 4               # syscall for print string
+    la      $a0, newline          # load address of newline
+    syscall
+
+    # Exit the program
+    li      $v0, 10              # syscall for exit
+    syscall

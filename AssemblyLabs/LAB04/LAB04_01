@@ -1,0 +1,57 @@
+.data
+prompt:     .asciiz "Enter an integer: "
+result_msg: .asciiz "Number of 1's in binary representation: "
+newline:    .asciiz "\n"
+
+.text
+.globl main
+
+main:
+    # Print the prompt message
+    li      $v0, 4              # syscall for print string
+    la      $a0, prompt         # load address of prompt
+    syscall
+
+    # Read an integer from the user
+    li      $v0, 5              # syscall for read integer
+    syscall
+    move    $t0, $v0            # move the input integer to $t0
+
+    # Initialize count of 1's to 0
+    li      $t1, 0              # $t1 will hold the count of 1's
+
+count_ones:
+    # Check if $t0 is zero
+    beqz    $t0, print_result    # if $t0 is 0, go to print result
+
+    # Check the least significant bit (LSB)
+    andi    $t2, $t0, 1          # $t2 = $t0 & 1
+    beqz    $t2, skip_increment   # if LSB is 0, skip increment
+
+    # Increment the count of 1's
+    addi    $t1, $t1, 1          # increment count
+
+skip_increment:
+    # Right shift $t0 by 1 to check the next bit
+    srl     $t0, $t0, 1          # $t0 = $t0 >> 1
+    j       count_ones           # repeat the process
+
+print_result:
+    # Print the result message
+    li      $v0, 4              # syscall for print string
+    la      $a0, result_msg      # load address of result message
+    syscall
+
+    # Print the count of 1's
+    move    $a0, $t1             # move count to $a0 for printing
+    li      $v0, 1               # syscall for print integer
+    syscall
+
+    # Print a newline
+    li      $v0, 4               # syscall for print string
+    la      $a0, newline          # load address of newline
+    syscall
+
+    # Exit the program
+    li      $v0, 10              # syscall for exit
+    syscall

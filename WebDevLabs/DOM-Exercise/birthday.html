@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>CMPSC 117: JavaScript Exercises 1</title>
+        <script language="javascript" type="text/javascript">
+            function displayMessage() {
+                var name = document.getElementById("inputName").value;
+                var age = document.getElementById("inputAge").value;
+
+                // Convert age to an integer
+                age = parseInt(age);
+
+                if (isNaN(age) || age < 1) {
+                    alert("Invalid Age!");
+                } else {
+                    let iniVal = 0;
+                    let display = ""; // Corrected variable name
+                    while (iniVal < age) {
+                        iniVal = iniVal + 1;
+                        display += iniVal + ".  Happy Birthday " + name + "!<br>";    
+                    }
+                    document.getElementById("para").innerHTML = display;
+                }
+            }
+        </script>
+    </head>
+    <body>
+        Enter your name:
+        <input type="text" id="inputName" name="InputName"><br>
+        Enter your age:          
+        <input type="text" id="inputAge" name="InputAge"><br>
+        <input type="button" id="greet" value="Greet" onclick="displayMessage()">
+        <p id="para"></p>
+    </body>
+</html>

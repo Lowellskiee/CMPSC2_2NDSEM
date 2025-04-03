@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <title>CMPSC 117: JavaScript Exercises 1</title>
+        <script language="javascript" type="text/javascript">
+            function getIntro() {
+                const date = new Date();
+                const time = date.getHours();
+                
+                let msg;
+                if (time < 12) {
+                    msg = "Good morning!";
+                } else {
+                    msg = "Good afternoon!";
+                }
+                return msg;
+            }
+
+            function displayMessage() {
+                const getName = document.getElementById("inputName").value;
+                const message = getIntro() + " " + getName + "!";
+                alert(message);
+            }
+        </script>
+    </head>
+    <body>
+        <input type="text" id="inputName" placeholder="Enter your name">
+        <input type="button" id="greet" value="Greet" onclick="displayMessage()">
+    </body>
+</html>

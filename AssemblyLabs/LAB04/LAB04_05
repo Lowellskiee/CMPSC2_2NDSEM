@@ -1,0 +1,96 @@
+.data
+prompt_a:   .asciiz "Enter the first positive integer (a): "
+prompt_b:   .asciiz "Enter the second positive integer (b): "
+result_msg: .asciiz "The GCD of the two numbers is: "
+newline:    .asciiz "\n"
+
+.text
+.globl main
+
+main:
+    # Prompt for the first positive integer (a)
+    li      $v0, 4              # syscall for print string
+    la      $a0, prompt_a       # load address of prompt_a
+    syscall
+
+    # Read the first integer (a)
+    li      $v0, 5              # syscall for read integer
+    syscall
+    move    $t0, $v0            # move a to $t0
+
+    # Prompt for the second positive integer (b)
+    li      $v0, 4              # syscall for print string
+    la      $a0, prompt_b       # load address of prompt_b
+    syscall
+
+    # Read the second integer (b)
+    li      $v0, 5              # syscall for read integer
+    syscall
+    move    $t1, $v0            # move b to $t1
+
+    # Initialize d to 0
+    li      $t2, 0               # d = 0
+
+    # Step 1: Remove common factors of 2
+    while_both_even:
+        andi    $t3, $t0, 1      # check if a is even
+        andi    $t4, $t1, 1      # check if b is even
+        beqz    $t3, check_b     # if a is even, check b
+        beqz    $t4, check_a     # if b is even, check a
+        j       gcd_loop         # if both are odd, go to gcd_loop
+
+    check_a:
+        srl     $t0, $t0, 1      # a = a / 2
+        addi    $t2, $t2, 1      # d = d + 1
+        j       while_both_even
+
+    check_b:
+        srl     $t1, $t1, 1      # b = b / 2
+        addi    $t2, $t2, 1      # d = d + 1
+        j       while_both_even
+
+    gcd_loop:
+        beq     $t0, $t1, found_gcd # if a == b, we found the GCD
+
+        andi    $t3, $t0, 1      # check if a is even
+        andi    $t4, $t1, 1      # check if b is even
+
+        beqz    $t3, a_odd       # if a is odd, go to a_odd
+        srl     $t0, $t0, 1      # a = a / 2
+        j       gcd_loop
+
+    a_odd:
+        beqz    $t4, b_odd       # if b is odd, go to b_odd
+        srl     $t1, $t1, 1      # b = b / 2
+        j       gcd_loop
+
+    b_odd:
+        bgt     $t0, $t1, a_minus_b # if a > b, go to a_minus_b
+        sub     $t1, $t1, $t0    # b = b - a
+        j       gcd_loop
+
+    a_minus_b:
+        sub     $t0, $t0, $t1    # a = a - b
+        j       gcd_loop
+
+    found_gcd:
+        # Now $t0 (or $t1) contains the GCD
+        move    $a0, $t0          # move GCD to $a0 for printing
+
+        # Print the result message
+        li      $v0, 4            # syscall for print string
+        la      $a0, result_msg   # load address of result message
+        syscall
+
+        # Print the GCD
+        li      $v0, 1            # syscall for print integer
+        syscall                   # print the GCD (in $a0)
+
+        # Print a newline
+        li      $v0, 4            # syscall for print string
+        la      $a0, newline      # load address of newline
+        syscall
+
+        # Exit the program
+        li      $v0, 10
+        syscall

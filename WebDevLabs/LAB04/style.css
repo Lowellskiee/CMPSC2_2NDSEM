@@ -1,0 +1,64 @@
+body {
+    background-image: url(henry-co--odUkx8C2gg-unsplash.jpg);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  h1 {
+    text-align: center;
+    background-color: turquoise;
+  }
+
+  .container {
+    background-color: antiquewhite;
+    background-size: 20px;
+    border: 2px solid black;
+    border-radius: 5px;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  input[type="text"] {
+    padding: 10px;
+    width: 250px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+
+  button {
+    background: white;
+    color: black;
+    padding: 8px 16px;
+    cursor: pointer;
+    border: 2px solid green;
+    border-radius: 3px;
+  }
+
+  .ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    display: flex;
+    justify-content: space-between;
+
+    background: #f1f1f1;
+    margin: 5px 0;
+    padding: 8px;
+    width: 300px;
+    border-radius: 5px;
+  }
+
+  .remove-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+  }

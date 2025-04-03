@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles.css">
+<title>Personal Matters</title>	
+
+<script>
+	function displayContent() {
+		var date = document.getElementById("date").value;
+		var feels = document.getElementById("feels").value;
+		var content = document.getElementById("diary-content").value;
+		var message = "Date: &emsp;" + date + "<br>How are you feeling: &emsp;" + feels + "<br><br>Message: &emsp;" + content;
+		document.getElementById("output").innerHTML = message;
+		return false;
+	}
+</script>
+
+</head>
+<body>
+<h1>Woven Dreams</h1>
+<form onsubmit="return displayContent()">
+
+	<label for="date">Select the date:</label><br>	
+	<input type="date" id="date" name="date" required><br><br>
+
+	<label for="feels">How are you feeling:</label><br>
+	<textarea id="feels" name="feels" placeholder="Write Something.." required></textarea><br><br>
+
+	<label for="content">Write the content of your Diary:</label><br>
+	<textarea id="diary-content" name="content" placeholder="Write Something.." required></textarea><br><br>
+
+	<input type="submit" value="Submit">
+</form>
+
+<h2>Output:</h2>
+<p id="output"></p>
+
+</body>
+</html>
